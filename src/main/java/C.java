@@ -1,8 +1,10 @@
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Scanner;
 
 public class C {
-    
-    static class Interval implements Comparable<Interval> {
+        static class Interval implements Comparable<Interval> {
         int start;
         int end;
 
@@ -14,6 +16,10 @@ public class C {
         @Override
         public int compareTo(Interval other) {
             return Integer.compare(this.start, other.start);
+        }
+
+        private void print() {
+            System.out.println(start + " " + end);
         }
     }
 
@@ -28,32 +34,31 @@ public class C {
             intervals.add(new Interval(start, end));
         }
 
-        // Сортировка отрезков по началу
+        // сортируем по началу
         Collections.sort(intervals);
 
-        // Объединение отрезков
         List<Interval> mergedIntervals = new ArrayList<>();
         Interval current = intervals.get(0);
 
         for (int i = 1; i < N; i++) {
             Interval next = intervals.get(i);
             if (next.start <= current.end) {
-                // Объединяем отрезки
+                // объединяем
                 current.end = Math.max(current.end, next.end);
             } else {
-                // Добавляем текущий отрезок в список объединенных отрезков
+                // добавление в итоговые отрезки
                 mergedIntervals.add(current);
                 current = next;
             }
         }
 
-        // Добавляем последний отрезок
+        // последний отрезок
         mergedIntervals.add(current);
 
-        // Вывод объединенных отрезков
+        // вывод
         System.out.println(mergedIntervals.size());
-        for (Interval interval : mergedIntervals) {
-            System.out.println(interval.start + " " + interval.end);
-        }
+        mergedIntervals.forEach(Interval::print);
+
+        // конец
     }
 }
